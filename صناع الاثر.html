@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact Makers Spinner</title>
+    <style>
+        body {
+            background-color: #2C3E50;
+            color: #ECF0F1;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        #title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        #name-display {
+            font-size: 4.5rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+            min-height: 100px;
+            color: #BDC3C7;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            transition: color 0.1s ease;
+        }
+
+        button {
+            background-color: #E74C3C;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #C0392B;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:disabled {
+            background-color: #7F8C8D;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 id="title">Impact Makers</h1>
+    <div id="name-display">Click Start</div>
+    <button id="spin-btn" onclick="startSpin()">Start Spin 🎯</button>
+
+    <script>
+        const names = [
+            "Adham", "Ahmed", "Mohamed Rabei", "Ms. Hagar", 
+            "Ms. Haneen", "Dr. Noura", "Ms. Eman", "Ms. Basma", "Ms. Saga"
+        ];
+        
+        const colors = [
+            "#E74C3C", "#9B59B6", "#3498DB", "#1ABC9C", 
+            "#F1C40F", "#E67E22", "#FF69B4"
+        ];
+
+        let delay, spins, maxSpins;
+
+        function startSpin() {
+            const btn = document.getElementById('spin-btn');
+            const title = document.getElementById('title');
+            
+            // Reset UI for new spin
+            btn.disabled = true;
+            title.innerText = "Impact Makers";
+            title.style.color = "#ECF0F1";
+            
+            spins = 0;
+            maxSpins = Math.floor(Math.random() * 20) + 30; // Random spins between 30 and 50
+            delay = 30; // Initial fast speed
+            
+            spinTick();
+        }
+
+        function spinTick() {
+            const nameDisplay = document.getElementById('name-display');
+            
+            // Get a random name and color
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            nameDisplay.innerText = randomName;
+            nameDisplay.style.color = randomColor;
+            
+            spins++;
+            
+            if (spins < maxSpins) {
+                delay += 8; // Gradually increase delay to slow down the effect
+                setTimeout(spinTick, delay);
+            } else {
+                // Spin finished
+                finishSpin();
+            }
+        }
+
+        function finishSpin() {
+            const btn = document.getElementById('spin-btn');
+            const title = document.getElementById('title');
+            const nameDisplay = document.getElementById('name-display');
+            
+            // Highlight winner
+            nameDisplay.style.color = "#2ECC71"; // Green color
+            title.innerText = "🎉 Winner 🎉";
+            title.style.color = "#F1C40F"; // Gold color
+            
+            // Re-enable button
+            btn.disabled = false;
+        }
+    </script>
+</body>
+</html>
